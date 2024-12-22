@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Digital Clock</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(135deg, #c33764, #1d2671);
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+        }
+
+        .clock-container {
+            text-align: center;
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .time {
+            font-size: 3em;
+            font-weight: bold;
+        }
+
+        .date {
+            font-size: 1.5em;
+            margin-top: 10px;
+        }
+
+        .greeting {
+            font-size: 1.2em;
+            margin-top: 20px;
+            font-style: italic;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="clock-container">
+        <div class="time" id="time"></div>
+        <div class="date" id="date"></div>
+        <div class="greeting" id="greeting"></div>
+    </div>
+
+    <script>
+        function updateClock() {
+            //console.log('updateClock called');
+
+            const timeElement = document.getElementById('time');
+            const dateElement = document.getElementById('date');
+            const greetingElement = document.getElementById('greeting');
+
+            //console.log('Fetching current date and time');
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+            const seconds = now.getSeconds();
+            const isAM = hours < 12;
+
+            //console.log(`Current time - Hours: ${hours}, Minutes: ${minutes}, Seconds: ${seconds}, AM/PM: ${isAM ? 'AM' : 'PM'}`);
+            const formattedHours = hours % 12 || 12;
+            const formattedMinutes = minutes.toString().padStart(2, '0');
+            const formattedSeconds = seconds.toString().padStart(2, '0');
+
+            timeElement.textContent = `${formattedHours}:${formattedMinutes}:${formattedSeconds} ${isAM ? 'AM' : 'PM'}`;
+
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString(undefined, options);
+
+            const hour = now.getHours();
+            if (hour >= 5 && hour < 12) {
+                greetingElement.textContent = 'Good Morning! Start your day with a smile.';
+            } else if (hour >= 12 && hour < 18) {
+                greetingElement.textContent = 'Good Afternoon! Keep up the good work.';
+            } else if (hour >= 18 && hour < 21) {
+                greetingElement.textContent = 'Good Evening! Time to relax and unwind.';
+            } else {
+                greetingElement.textContent = 'Good Night! Sweet dreams.';
+            }
+
+            /*console.log(`Updated time to: ${timeElement.textContent}`);
+            console.log(`Updated date to: ${dateElement.textContent}`);
+            console.log(`Updated greeting to: ${greetingElement.textContent}`);*/
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+    </script>
+</body>
+</html>
